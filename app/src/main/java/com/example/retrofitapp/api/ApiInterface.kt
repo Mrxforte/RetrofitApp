@@ -1,9 +1,10 @@
 package com.example.retrofitapp.api
 
-import okhttp3.ResponseBody
+import com.example.retrofitapp.models.PostsModel
+import retrofit2.Response
 import retrofit2.http.GET
 
 interface ApiInterface {
-    @GET("https://api.restful-api.dev/objects")
-    suspend fun getObjectsList():ResponseBody
+    @GET("posts")
+    suspend fun getObjectsList(): Response<List<PostsModel>>
 }

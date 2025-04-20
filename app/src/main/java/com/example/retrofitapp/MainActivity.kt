@@ -10,6 +10,7 @@ import androidx.lifecycle.lifecycleScope
 import com.example.retrofitapp.api.ApiInterface
 import kotlinx.coroutines.launch
 import retrofit2.Retrofit
+import retrofit2.converter.gson.GsonConverterFactory
 
 class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -22,11 +23,15 @@ class MainActivity : AppCompatActivity() {
             insets
         }
 //        retrofit adding the project
-        var retrofit = Retrofit.Builder().build()
+        var retrofit = Retrofit
+            .Builder()
+            .addConverterFactory(GsonConverterFactory.create())
+            .baseUrl("https://jsonplaceholder.typicode.com/")
+            .build()
         var api = retrofit.create(ApiInterface::class.java)
         lifecycleScope.launch {
             var response = api.getObjectsList()
-            Log.d("TAG", "onCreate: ${response.string()}")
+            Log.d("TAG", "onCreate: ${response.body()?.joinToString()}")
         }
     }
 }
